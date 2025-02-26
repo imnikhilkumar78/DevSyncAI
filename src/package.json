@@ -1,0 +1,55 @@
+{
+  "name": "dev-sync-ai",
+  "displayName": "Dev Sync Buddy",
+  "description": "An AI-powered VS Code extension for code suggestions, error detection, test generation, and documentation using DeepSeek R1 free API.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "smartCodeBuddy.findErrors",
+        "title": "Smart Code Buddy: Find Errors"
+      },
+      {
+        "command": "smartCodeBuddy.generateTests",
+        "title": "Smart Code Buddy: Generate Tests"
+      },
+      {
+        "command": "smartCodeBuddy.generateDocumentation",
+        "title": "Smart Code Buddy: Generate Documentation"
+      },
+      {
+        "command": "smartCodeBuddy.codeSuggestions",
+        "title": "Smart Code Buddy: Code Suggestions"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onCommand:smartCodeBuddy.generateDocumentation",
+    "onCommand:smartCodeBuddy.findErrors",
+    "onCommand:smartCodeBuddy.generateTests",
+    "onCommand:smartCodeBuddy.codeSuggestions"
+  ],
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "18.19.1",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^4.9.0"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "dotenv": "^16.0.0"
+  }
+}

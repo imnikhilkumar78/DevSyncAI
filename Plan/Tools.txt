@@ -1,5 +1,0 @@
-Node - version - 18.19.1
-NPM
-Visual Studio Code
-Git
-
