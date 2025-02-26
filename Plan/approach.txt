@@ -1,0 +1,31 @@
+Core Features
+    Code Suggestions:
+        Provide intelligent autocompletion and snippet generation for TypeScript/JavaScript.
+
+    Error Detection & Fixes:
+        Analyze code for common mistakes, highlight errors, and offer potential fixes.
+
+    Test Generation:
+        Automatically generate test cases for functions or modules.
+
+    Documentation Generation:
+        Create inline comments, function descriptions, and API documentation based on the code context.
+
+2. AI API Selection
+    DeepSeek-V2 API:
+        Since GPT-3.5 Turbo isn’t free, we’ll leverage the free DeepSeek-V2 API (or similar free alternatives) for all AI-powered tasks.
+3. Architecture Overview
+    VS Code Extension Frontend:
+
+    Built with TypeScript.
+        Provides UI commands (via command palette and context menus) for each feature (e.g.,    “Suggest Code”, “Find Errors”, “Generate Tests”, “Document Code”).
+    
+    Backend Integration:
+        The extension will call the DeepSeek-V2 API directly from the extension code (or through a lightweight Node.js proxy if needed for security).
+        The API calls will include the current code context as input, and the responses (suggestions, error fixes, etc.) will be rendered in the extension.
+
+    Data Flow:
+    User invokes a command (e.g., “Generate Documentation”).
+    The extension captures the relevant code snippet and context.
+    It sends a prompt to the DeepSeek-V2 API.
+    The API returns generated content, which is then inserted or shown to the user.
