@@ -4,36 +4,37 @@ import * as vscode from "vscode";
 export class LlmApiService {
   private readonly apiUrl: string = "http://localhost:11434/api";
   private readonly baseUrl: string = "/generate";
-  private readonly modelName: string = "devsyncai";
+  private readonly modelName: string = "devsyncaiV1";
   private isApiAvailable: boolean = false;
+  private readonly initializationPromise: Promise<void>;
 
   constructor() {
-    this.initialize();
+    this.initializationPromise = this.initialize();
   }
 
   private async initialize(): Promise<void> {
-    this.isApiAvailable = await this.isOllamaRunning();
-  }
-
-  private readonly isOllamaRunning = async (): Promise<boolean> => {
     try {
+      console.log(`${this.apiUrl}/tags`);
       await axios.get(`${this.apiUrl}/tags`);
-      return true;
+      console.log("returning true");
+      this.isApiAvailable = true;
     } catch (error: any) {
       if (axios.isAxiosError(error) && error.code === "ECONNREFUSED") {
-        return false;
+        this.isApiAvailable = false;
       } else {
         console.error("Error checking Ollama status:", error);
-        return false;
+        this.isApiAvailable = false;
       }
     }
-  };
+  }
 
   public isAvailable(): boolean {
     return this.isApiAvailable;
   }
 
   public async generate(prompt: string): Promise<string> {
+    await this.initializationPromise;
+
     if (!this.isApiAvailable) {
       vscode.window.showErrorMessage("Ollama API is not available.");
       return "Error: Ollama API is not available.";
@@ -86,6 +87,8 @@ export class LlmApiService {
     prompt: string,
     onData: (data: string) => void
   ): Promise<string> {
+    await this.initializationPromise;
+
     if (!this.isApiAvailable) {
       return this.handleError("Ollama API is not available.");
     }

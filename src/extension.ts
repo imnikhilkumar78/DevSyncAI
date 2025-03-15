@@ -7,12 +7,12 @@ export function activate(context: vscode.ExtensionContext) {
   const llmService = new LlmApiService();
 
   context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "your-extension.generateDocumentation",
-      generateDocumentation
-    ),
-    vscode.commands.registerCommand("your-extension.generateTests", () =>
+    vscode.commands.registerCommand("smartCodeBuddy.generateTests", () =>
       generateTests(llmService)
+    ),
+    vscode.commands.registerCommand(
+      "smartCodeBuddy.generateDocumentation",
+      () => generateDocumentation(llmService)
     )
   );
 }

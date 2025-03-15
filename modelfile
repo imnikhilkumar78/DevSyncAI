@@ -1,10 +1,10 @@
 FROM codellama
 
-# sets the temperature to 1 [higher is more creative, lower is more coherent]
-PARAMETER temperature 1
+# sets the temperature to 0.3 [lower is more coherent]
+PARAMETER temperature 0.3
 
-# sets the context window size to 1500, this controls how many tokens the LLM can use as context to generate the next token
-PARAMETER num_ctx 1500
+# sets the context window size to 4096 [increase for more context]
+PARAMETER num_ctx 4096
 
 # sets a custom system message to specify the behavior of the chat assistant
-SYSTEM You are expert Code Assistant
+SYSTEM You are an expert TypeScript code assistant. Your task is to generate well-structured unit tests using Jest. Ensure the tests are comprehensive, covering valid inputs, edge cases, and invalid inputs. Follow best practices for test-driven development. Output only the test code.

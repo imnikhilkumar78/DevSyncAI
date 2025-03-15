@@ -1,71 +1,114 @@
-# devsyncai README
+# DevSync AI
 
-This is the README for your extension "devsyncai". After writing up a brief description, we recommend including the following sections.
+DevSync AI is a VS Code extension that leverages the power of local Large Language Models (LLMs) through Ollama to enhance your development workflow. It provides features to generate unit tests and documentation directly within your VS Code editor.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+* **Generate Unit Tests:** Create comprehensive unit tests for selected code or entire files using CodeLlama.
+* **Generate Documentation:** Automatically generate inline documentation for your code.
+* **Local LLM Processing:** Utilizes Ollama to run LLMs locally, ensuring privacy and control.
+* **Customizable LLM Behavior:** Fine-tune CodeLlama's behavior using a custom `Modelfile`.
 
-For example if there is an image subfolder under your extension project workspace:
+## Prerequisites
 
-\!\[feature X\]\(images/feature-x.png\)
+1.  **VS Code:** Make sure you have Visual Studio Code installed.
+2.  **Node.js and npm (or Yarn):** These are required for building and running the extension.
+3.  **Ollama:** Download and install Ollama from [ollama.ai](https://ollama.ai/).
+4.  **CodeLlama Model:** Pull the CodeLlama model using Ollama:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+    ```bash
+    ollama pull codellama
+    ```
 
-## Requirements
+## Installation and Running
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+1.  **Clone the Repository:**
 
-## Extension Settings
+    ```bash
+    git clone <your-repository-url>
+    cd DevSyncAI
+    ```
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+2.  **Install Dependencies:**
 
-For example:
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-This extension contributes the following settings:
+3.  **Open in VS Code:**
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+    ```bash
+    code .
+    ```
 
-## Known Issues
+4.  **Build the Extension:**
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+    ```bash
+    npm run compile
+    # or
+    yarn compile
+    ```
 
-## Release Notes
+5.  **Run the Extension in Debug Mode:**
 
-Users appreciate release notes as you update your extension.
+    * Go to the "Run and Debug" view in VS Code (Ctrl+Shift+D or Cmd+Shift+D).
+    * Click the green "Run Extension" button or press F5.
+    * This will open a new VS Code window (Extension Development Host) where your extension will be running.
 
-### 1.0.0
+## Using the Extension
 
-Initial release of ...
+1.  **Open a TypeScript File:** Open a `.ts` file in the Extension Development Host window.
+2.  **Generate Tests:**
+    * Select code or leave the selection empty for the whole file.
+    * Open the command palette (Ctrl+Shift+P or Cmd+Shift+P).
+    * Type and select "DevSync AI: Generate Tests".
+    * The generated tests will be inserted into a `.spec.ts` file in the same directory.
+3.  **Generate Documentation:**
+    * Select code or leave the selection empty for the whole file.
+    * Open the command palette.
+    * Type and select "DevSync AI: Generate Documentation".
+    * The generated documentation will be inserted as comments at the top of the selection or file.
 
-### 1.0.1
+## Customizing CodeLlama
 
-Fixed issue #.
+1.  **Create a `Modelfile`:**
+    * Create a directory for your custom model.
+    * Place a `Modelfile` in that directory.
 
-### 1.1.0
+    ```
+    FROM codellama
+    PARAMETER temperature 0.3
+    PARAMETER num_ctx 4096
+    SYSTEM You are an expert TypeScript code assistant.
+    STOP ["\n\n\n", "```"]
+    ```
 
-Added features X, Y, and Z.
+2.  **Build the Custom Model:**
+    * Open a terminal and navigate to the directory containing your `Modelfile`.
+    * Run the following command:
 
----
+        ```bash
+        ollama create your-model-name -f Modelfile
+        ```
 
-## Following extension guidelines
+        * Replace `your-model-name` with the desired name for your custom model.
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+3.  **Use the Custom Model:**
+    * In your VS Code extension's code (`llm-api-service.ts`), make sure to use the name of your custom model when making API requests to Ollama.
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+        ```typescript
+        // In LlmApiService class
+        private readonly modelName: string = "your-model-name"; // Replace with your model name
+        ```
 
-## Working with Markdown
+## Debugging
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+* Set breakpoints in your TypeScript code.
+* When running the extension in debug mode, the debugger will stop at your breakpoints.
+* Use the VS Code debugger to inspect variables and step through your code.
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+## Contributing
 
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Contributions are welcome! Please feel free to submit pull requests or open issues.
